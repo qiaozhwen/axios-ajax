@@ -32,7 +32,6 @@ axios.get('/user?ID=12345')
     });
 ```
 ``` bash
-demo1:
  前端数据格式:
      {
         字段名:字段值，
@@ -40,6 +39,7 @@ demo1:
         字段名:字段值，
         ...
      }
+demo1:
  get: function (query, cb) {
     axios.get('后台给出接口地址?query=' + JSON.stringify(query)).then(response => {
       cb(response)
