@@ -33,8 +33,15 @@ axios.get('/user?ID=12345')
 ```
 ``` bash
 demo1:
- get: function (collection, query, cb) {
-    axios.get('https://qinzibo.com/private/' + collection + '?query=' + JSON.stringify(query)).then(response => {
+ 前端数据格式:
+     {
+        字段名:字段值，
+        字段名:字段值，
+        字段名:字段值，
+        ...
+     }
+ get: function (query, cb) {
+    axios.get('后台给出接口地址?query=' + JSON.stringify(query)).then(response => {
       cb(response)
     }).catch(function (error) {
       console.log(error)
