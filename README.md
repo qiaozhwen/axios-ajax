@@ -30,6 +30,7 @@ axios.get('/user?ID=12345')
     .catch(function (error) {
       console.log(error);
     });
+    后端接收：let {ID} = req.request.query
 ```
 ``` bash
  前端数据格式:
@@ -67,6 +68,31 @@ axios.post('/user', {
   .catch(function (error) {
     console.log(error);
   });
+  后端接收：let {ID} = req.request.query
+  ```
+  ``` bash
+  前端数据格式:
+       {
+          字段名:字段值，
+          字段名:字段值，
+          字段名:字段值，
+          ...
+       }
+  demo1:
+   post: function (query, cb) {
+      axios.get('后台给出接口地址，query).then(response => {
+        cb(response)
+      }).catch(function (error) {
+        console.log(error)
+      })
+  demo2:
+      let request = axios.create({
+         baseUrl:'后台给出接口地址'
+      })
+      request({
+         method:'post'//可选，默认为get
+         data:'xxxxxx'
+      })
 ```
 ## delete
 ``` bash
