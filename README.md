@@ -30,7 +30,6 @@ axios.get('/user?ID=12345')
     .catch(function (error) {
       console.log(error);
     });
-    后端接收：let {ID} = req.request.query
 ```
 ``` bash
  前端数据格式:
@@ -47,6 +46,7 @@ demo1:
     }).catch(function (error) {
       console.log(error)
     })
+    后端接收：let {ID} = req.request.query['query']
 demo2:
     let request = axios.create({
        baseUrl:'后台给出接口地址'
@@ -55,6 +55,7 @@ demo2:
        method:'get'//可选，默认为get
        params:'xxxxxx'
     })
+    后端接收：let {ID} = req.request.query
 ```
 ## post
 ``` bash
@@ -68,7 +69,6 @@ axios.post('/user', {
   .catch(function (error) {
     console.log(error);
   });
-  后端接收：let {ID} = req.request.query
   ```
   ``` bash
   前端数据格式:
@@ -85,6 +85,7 @@ axios.post('/user', {
       }).catch(function (error) {
         console.log(error)
       })
+      后端接收：let {ID} = req.request.query
   demo2:
       let request = axios.create({
          baseUrl:'后台给出接口地址'
@@ -93,6 +94,7 @@ axios.post('/user', {
          method:'post'//可选，默认为get
          data:'xxxxxx'
       })
+      后端接收：let {ID} = req.request.query
 ```
 ## delete
 ``` bash
@@ -106,4 +108,27 @@ axios.delete('/user',
   .catch(function (error) {
     console.log(error);
   });
+```
+ ``` bash
+  前端数据格式:
+       {
+          字段名(ID):字段值，
+       }
+  demo1:
+   delete: function (query, cb) {
+      axios.get('后台给出接口地址，query).then(response => {
+        cb(response)
+      }).catch(function (error) {
+        console.log(error)
+      })
+      后端接收：let {ID} = req.request.body
+  demo2:
+      let request = axios.create({
+         baseUrl:'后台给出接口地址'
+      })
+      request({
+         method:'post'//可选，默认为get
+         data:{id:'xxxxxxxxxxx'}
+      })
+     后端接收：let {ID} = req.request.body
 ```
