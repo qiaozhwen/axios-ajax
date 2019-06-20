@@ -55,7 +55,7 @@ demo2:
        method:'get'//可选，默认为get
        params:'xxxxxx'
     })
-    后端接收：let {ID} = req.request.query
+    后端接收：let {ID} = req.request.query****
 ```
 ## post
 ``` bash
