@@ -295,7 +295,7 @@ JQuery在AJAX另有封装，所以当我们不管是传基本数据类型还是�
 1、降维复杂数据
 2、let 传输数据 = ''
 for(let val in data){
-   传输数据=val+'&'+data[val]
+   传输数据='&'+val+'='+data[val]
 }
 具体:
 传输复杂类型
