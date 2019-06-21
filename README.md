@@ -258,3 +258,96 @@ return data;
 21.scriptCharset： 
 要求为String类型的参数，只有当请求时dataType为”jsonp”或者”script”，并且type是GET时才会用于强制修改字符集(charset)。通常在本地和远程的内容编码不同时使用。
 ```
+#具体传输DEMO
+##JQury.ajax
+```base
+JQuery在AJAX另有封装，所以当我们不管是传基本数据类型还是复杂数据类型，最终在发出request的时候，会自动解析成一维的数组OR对象
+  $.ajax({
+                    type: 'POST',
+                    url: 'http://www.skybseo.cn/php/jiekou.php',
+                    data: {
+                        firstName: "Fred",
+                        lastName: "Flintstone",
+                        boj:{
+                            n:1,
+                            name:'张三',
+                            sex:0
+                        },
+                        list:['张三','李四','王五','赵六'],
+                        listobj:[
+                            {id:1,name:'张三'},
+                            {id:2,name:'李四'}
+                        ]
+                    },
+                    success: (res)=>{
+                        console.log(res)
+                    },
+                    // dataType: dataType
+   });
+```
+   ![Image text](./img/20180911221408367.png)
+```base
+后台可根据content-type的类型选择解析的方式
+```
+##axios
+```base
+content-type:'application/x-www-form-urlencoded'
+传输复杂类型
+1、
+在属性transformRequest设置
+transformRequest: [
+function (e) {
+                            // 数据转换的核心代码，来自我公司的前端大佬
+                            function setDate(e){
+                                var t, n, i, r, o, s, a, c = "";
+                                for (t in e)
+                                if (n = e[t], n instanceof Array)
+                                    for (a = 0; a < n.length; ++a)
+                                    o = n[a], i = t + "[" + a + "]", s = {}, s[i] = o, c += setDate(s) + "&";
+                                else if (n instanceof Object)
+                                    for (r in n) o = n[r], i = t + "[" + r + "]", s = {}, s[i] = o, c += setDate(s) + "&";
+                                else void 0 !== n && null !== n && (c += encodeURIComponent(t) + "=" + encodeURIComponent(n) + "&");
+                                return c.length ? c.substr(0, c.length - 1) : c
+                            }
+                          return setDate(e)
+}],
+将数据转为1维
+//这个待测试
+2、
+transformRequest:[
+function downlevel (data, result={},key) {
+    for (let val in data){
+      if(typeof data[val] === 'object'){
+        if(key){
+          downlevel(data[val],result,key+'-'+val)
+        } else {
+          downlevel(data[val],result, val)
+        }
+      } else {
+        if(key){
+          result[key+'-'+val] = data[val]
+        }
+        else {
+          result[val] = data[val]
+        }
+      }
+    }
+    return result
+  }]
+content-type:''application/json;charset=UTF-8'
+传输格式为     let data = {
+                         id:1,
+                         name:'李四',
+                         arr:['张三','王五','赵六','刘七'],
+                         list:[
+                             {id:1,name:'周八',sex:1},
+                             {id:2,name:'卢九',sex:0},
+                             {id:3,name:'齐十',sex:1},
+                         ],
+                         obj:{
+                             title:'axios请求学习',
+                             time:'2018-9-11'
+                         }
+                     }
+```
+#####application/x-www-form-urlencoded上传到后台的数据是以key-value形式进行组织的，而application/json则直接是个json字符串
