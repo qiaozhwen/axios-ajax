@@ -290,11 +290,16 @@ JQuery在AJAX另有封装，所以当我们不管是传基本数据类型还是�
 后台可根据content-type的类型选择解析的方式
 ```
 ##axios
+#####application/x-www-form-urlencoded
 ```base
-content-type:'application/x-www-form-urlencoded'
+1、降维复杂数据
+2、let 传输数据 = ''
+for(let val in data){
+   传输数据=val+'&'+data[val]
+}
+具体:
 传输复杂类型
-1、
-在属性transformRequest设置
+1、在属性transformRequest设置
 transformRequest: [
 function (e) {
                             // 数据转换的核心代码，来自我公司的前端大佬
@@ -313,8 +318,7 @@ function (e) {
 }],
 将数据转为1维
 //这个待测试
-2、
-transformRequest:[
+2、transformRequest:[
 function downlevel (data, result={},key) {
     for (let val in data){
       if(typeof data[val] === 'object'){
@@ -334,20 +338,22 @@ function downlevel (data, result={},key) {
     }
     return result
   }]
-content-type:''application/json;charset=UTF-8'
-传输格式为     let data = {
-                         id:1,
-                         name:'李四',
-                         arr:['张三','王五','赵六','刘七'],
-                         list:[
-                             {id:1,name:'周八',sex:1},
-                             {id:2,name:'卢九',sex:0},
-                             {id:3,name:'齐十',sex:1},
-                         ],
-                         obj:{
-                             title:'axios请求学习',
-                             time:'2018-9-11'
-                         }
-                     }
+3、npm install qs
+传输数据直接包裹qs.stringify
 ```
-#####application/x-www-form-urlencoded上传到后台的数据是以key-value形式进行组织的，而application/json则直接是个json字符串
+#####application/json
+```base
+JSON.stringify(需要传输的数据)
+```
+#####multipart/form-data 
+```base
+直接上传表单数据
+ let formData = new FormData();
+ formData.append("name", "xxxx");
+ formData.append("number", xxxx);
+ formData.append("name", "xxxx")
+```
+#####text/xml 
+```base
+较少人使用，可忽略
+```
