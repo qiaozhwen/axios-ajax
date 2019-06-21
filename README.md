@@ -57,7 +57,7 @@ demo2:
     })
     后端接收：let {ID} = req.request.query****
 ```
-## post
+## post/put
 ``` bash
 axios.post('/user', {
     firstName: 'Fred',
